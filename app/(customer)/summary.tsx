@@ -84,7 +84,7 @@ export default function SummaryScreen() {
       <View style={s.notesBox}>
         <TextInput
           style={s.notesInput}
-          placeholder="e.g. \"I'd like a looser curl, please\""
+          placeholder={'e.g. "I\'d like a looser curl, please"'}
           placeholderTextColor={colors.textTertiary}
           multiline
         />

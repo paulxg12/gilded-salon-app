@@ -25,7 +25,10 @@
         "backgroundColor": "#F5F2EB"
       },
       "package": "com.gilded.salon",
-      "permissions": ["READ_CALENDAR", "WRITE_CALENDAR"]
+      "permissions": [
+        "READ_CALENDAR",
+        "WRITE_CALENDAR"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -34,7 +37,8 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "@react-native-firebase/app"
+      "expo-asset",
+      "expo-font"
     ]
   }
 }

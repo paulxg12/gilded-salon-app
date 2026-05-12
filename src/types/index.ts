@@ -109,7 +109,7 @@ export interface Booking {
 
 export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled';
 
-export type PaymentMethod = 'card' | 'apple_pay' | 'tabby' | 'tamara';
+export type PaymentMethod = 'pay_at_store' | 'card' | 'apple_pay' | 'tabby' | 'tamara';
 
 export interface Customer {
   id: string;

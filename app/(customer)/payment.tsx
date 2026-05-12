@@ -5,6 +5,7 @@ import { colors, spacing, borderRadius } from '@theme/theme';
 import { Button } from '@components/Button';
 
 const methods = [
+  { id: 'pay_at_store', icon: '🏪', name: 'Pay at Store', desc: 'Pay in cash, card or crypto at the salon' },
   { id: 'card', icon: '💳', name: 'Card', desc: 'Visa •••• 4242' },
   { id: 'apple_pay', icon: '🍎', name: 'Apple Pay', desc: '' },
   { id: 'tabby', icon: null, name: 'Tabby', desc: '4 installments • AED 78.75/mo', brand: '#8B5CF6', text: 'T' },
@@ -12,7 +13,7 @@ const methods = [
 ];
 
 export default function PaymentScreen() {
-  const [selected, setSelected] = useState('card');
+  const [selected, setSelected] = useState('pay_at_store');
   const [deposit, setDeposit] = useState(false);
 
   const total = 315;

@@ -1,40 +1,53 @@
+import { 
+  signInWithPhoneNumber,
+  PhoneAuthProvider,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged as firebaseOnAuthStateChanged,
+  updateProfile,
+  User,
+} from 'firebase/auth';
 import { FirebaseAuth, FirestoreDB } from './config';
-import { User } from '@types/index';
+import { User as AppUser } from '@types/index';
 
 export const signInWithPhone = async (phoneNumber: string) => {
-  const confirmation = await FirebaseAuth.signInWithPhoneNumber(phoneNumber);
-  return confirmation;
+  const provider = new PhoneAuthProvider(FirebaseAuth);
+  const verificationId = await provider.verifyPhoneNumber(phoneNumber);
+  return { verificationId };
 };
 
-export const confirmCode = async (confirmation: any, code: string) => {
-  const credential = await confirmation.confirm(code);
-  return credential.user;
+export const confirmCode = async (verificationId: string, code: string) => {
+  const credential = PhoneAuthProvider.credential(verificationId, code);
+  const userCredential = await signInWithCredential(FirebaseAuth, credential);
+  return userCredential.user;
 };
 
 export const signInWithEmail = async (email: string, password: string) => {
-  const credential = await FirebaseAuth.signInWithEmailAndPassword(email, password);
+  const credential = await signInWithEmailAndPassword(FirebaseAuth, email, password);
   return credential.user;
 };
 
 export const signUpWithEmail = async (email: string, password: string, name: string) => {
-  const credential = await FirebaseAuth.createUserWithEmailAndPassword(email, password);
-  await credential.user.updateProfile({ displayName: name });
+  const credential = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
+  await updateProfile(credential.user, { displayName: name });
   return credential.user;
 };
 
 export const signOut = async () => {
-  await FirebaseAuth.signOut();
+  await firebaseSignOut(FirebaseAuth);
 };
 
 export const getCurrentUser = () => {
   return FirebaseAuth.currentUser;
 };
 
-export const onAuthStateChanged = (callback: (user: any) => void) => {
-  return FirebaseAuth.onAuthStateChanged(callback);
+export const onAuthStateChanged = (callback: (user: User | null) => void) => {
+  return firebaseOnAuthStateChanged(FirebaseAuth, callback);
 };
 
-export const createUserProfile = async (user: any, data: Partial<User>) => {
+export const createUserProfile = async (user: User, data: Partial<AppUser>) => {
   await FirestoreDB.collection('users').doc(user.uid).set({
     id: user.uid,
     email: user.email,
@@ -48,8 +61,8 @@ export const createUserProfile = async (user: any, data: Partial<User>) => {
   });
 };
 
-export const getUserProfile = async (uid: string): Promise<User | null> => {
+export const getUserProfile = async (uid: string): Promise<AppUser | null> => {
   const doc = await FirestoreDB.collection('users').doc(uid).get();
   if (!doc.exists) return null;
-  return doc.data() as User;
+  return doc.data() as AppUser;
 };

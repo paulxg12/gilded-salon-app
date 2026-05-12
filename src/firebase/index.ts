@@ -3,7 +3,6 @@ export {
   FirestoreDB,
   FirebaseStorage,
   FirebaseFunctions,
-  FirebaseMessaging,
 } from './config';
 
 export * from './auth';

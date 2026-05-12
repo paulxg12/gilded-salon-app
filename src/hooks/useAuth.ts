@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, getCurrentUser } from '@firebase/auth';
-import { getUserProfile } from '@firebase/firestore';
+import { onAuthStateChanged, getUserProfile } from '@firebase/auth';
 import { User } from '@types/index';
 
 export function useAuth() {

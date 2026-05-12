@@ -1,6 +1,5 @@
 import { FirestoreDB } from './config';
 import { Service, Stylist, Booking, Customer, AnalyticsData, BusinessSettings } from '@types/index';
-import firestore from '@react-native-firebase/firestore';
 
 // Services
 export const getServices = async (): Promise<Service[]> => {
