@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Gilded Salon",
+    "slug": "gilded-salon",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "gilded",
+    "splash": {
+      "backgroundColor": "#F5F2EB",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gilded.salon",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "Allow Gilded to add appointments to your calendar",
+        "NSRemindersUsageDescription": "Allow Gilded to send appointment reminders"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F5F2EB"
+      },
+      "package": "com.gilded.salon",
+      "permissions": ["READ_CALENDAR", "WRITE_CALENDAR"]
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "@react-native-firebase/app"
+    ]
+  }
+}

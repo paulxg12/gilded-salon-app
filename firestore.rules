@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users: owner can read own, admin can read all
+    match /users/{userId} {
+      allow read: if request.auth != null && (request.auth.uid == userId || request.auth.token.role == 'admin');
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && (request.auth.uid == userId || request.auth.token.role == 'admin');
+      allow delete: if request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    // Bookings: customer can read own, admin can read all
+    match /bookings/{bookingId} {
+      allow read: if request.auth != null && (request.auth.uid == resource.data.customerId || request.auth.token.role == 'admin');
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && (request.auth.uid == resource.data.customerId || request.auth.token.role == 'admin');
+      allow delete: if request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    // Services & Stylists: readable by all authenticated users
+    match /services/{doc} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    match /stylists/{doc} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    // Settings: admin only
+    match /settings/{doc} {
+      allow read: if request.auth != null && request.auth.token.role == 'admin';
+      allow write: if request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    // Feedback: customer can create, admin can read
+    match /feedback/{doc} {
+      allow read: if request.auth != null && request.auth.token.role == 'admin';
+      allow create: if request.auth != null;
+      allow update, delete: if false;
+    }
+  }
+}
